@@ -1,8 +1,10 @@
 import React from 'react';
 
+import './dashboard.scss';
+
 const Dashboard = () => (
-  <div>
-    <div>Dashboard</div>
+  <div className="dashboard-wrap">
+    <div className="text animated bounce">Dashboard</div>
   </div>
 );
 

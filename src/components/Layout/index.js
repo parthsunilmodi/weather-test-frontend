@@ -29,12 +29,21 @@ const menuItems = [
 
 const LayoutComponent = ({ children, match }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [showToggle, setToggle] = useState(true);
   const [selectedItem, changeSelectedItem] = useState(['1']);
 
   useEffect(() => {
     const item = menuItems.find(i => i.selectedPaths.includes(match.path));
     if (item) changeSelectedItem([item.key]);
   }, [match.path]);
+
+  useEffect(() => {
+    console.log('window---', window.innerWidth);
+    if (window.innerWidth >= 320 && window.innerWidth <= 768) {
+      setCollapsed(true);
+      setToggle(false);
+    }
+  }, [window.innerWidth]);
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -55,10 +64,11 @@ const LayoutComponent = ({ children, match }) => {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: toggle,
-          })}
+          {showToggle &&
+            React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: toggle,
+            })}
           <div className="title-wrap">
             <div className="title">VIVASOFT</div>
           </div>
@@ -69,6 +79,8 @@ const LayoutComponent = ({ children, match }) => {
             margin: '24px 16px',
             padding: 24,
             minHeight: 280,
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
           {children}
