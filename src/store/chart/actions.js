@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions';
-import axios from 'axios';
+import weatherService from '../../services/weather';
 
 const options = {
   prefix: 'CHART',
@@ -14,21 +14,12 @@ const chartActions = createActions(
   options,
 );
 
-const getWeatherData = () => dispatch => {
+const getWeatherData = () => async dispatch => {
   try {
     dispatch(chartActions.setLoading(true));
-    axios
-      .get('https://weather-api-test-guna.herokuapp.com/api/weather')
-      .then(response => {
-        dispatch(chartActions.setLoading(true));
-        dispatch(chartActions.setWeatherData(response.data));
-      })
-      .catch(error => {
-        console.error('error while getting chart data----', error);
-        dispatch(chartActions.setFailure(error));
-      });
+    const response = await weatherService.getWeatherDataService();
+    dispatch(chartActions.setWeatherData(response));
   } catch (e) {
-    console.error('error----', e);
     dispatch(chartActions.setFailure(e));
   } finally {
     dispatch(chartActions.setLoading(false));

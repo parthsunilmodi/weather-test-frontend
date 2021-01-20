@@ -1,0 +1,8 @@
+.line-chart-wrapper {
+  height: calc(100vh - 200px);
+  width: auto;
+  canvas {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
